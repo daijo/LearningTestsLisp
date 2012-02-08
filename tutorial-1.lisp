@@ -13,7 +13,7 @@
 ;; Exercise solutions
 
 (defun triangular (N)
-  "Compute the factorial of N."
+  "Compute the triangular of N."
   (if (= N 1)
       1
     (+ N (triangular (- N 1)))))
