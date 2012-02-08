@@ -1,0 +1,14 @@
+Lisp Unit Tests
+===============
+
+Test written while learning Lisp.
+
+To run:
+
+CL-USER> (load "/Users/daijo/Code/LearningTestsLisp/lisp-unit.lisp")
+T
+CL-USER> (use-package :lisp-unit)
+T
+CL-USER> (load "/Users/daijo/Code/LearningTestsLisp/tutorial-1.lisp")
+T
+CL-USER> (run-tests)
