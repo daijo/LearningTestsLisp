@@ -56,6 +56,13 @@
       0
     (+ (first L) (sum (rest L)))))
 
+(defun my-last (L)
+  "Get the last cons structure of a list."
+  (cond
+    ((null L)         nil)
+    ((null (rest L))  (cons (first L) nil))
+    (t                (my-last (rest L)))))
+
 ;; Tests
 
 (define-test my-double
@@ -118,4 +125,10 @@
   (assert-equal nil (list-nth 2 nil))
   (assert-equal 'a (list-nth 0 '(a b c)))
   (assert-equal 'c (list-nth 2 '(a b c)))
+  )
+
+(define-test my-last
+  (assert-equal nil (my-last nil))
+  (assert-equal '(c) (my-last '(a b c)))
+  (assert-equal '(3) (my-last '(1 2 3)))
   )
