@@ -42,6 +42,12 @@
       1
     (+ (binomial (- N 1) (- R 1)) (binomial (- N 1) R))))
 
+(defun sum (L)
+  "Compute the sum of all elements of a list."
+  (if (null L)
+      0
+    (+ (first L) (sum (rest L)))))
+
 ;; Tests
 
 (define-test my-double
@@ -92,4 +98,10 @@
   (assert-equal 0 (recursive-list-length nil))
   (assert-equal 1 (recursive-list-length '(1)))
   (assert-equal 5 (recursive-list-length '(1 2 3 4 5)))
+  )
+
+(define-test sum
+  (assert-equal 0 (sum nil))
+  (assert-equal 1 (sum '(1)))
+  (assert-equal 15 (sum '(1 2 3 4 5)))
   )
