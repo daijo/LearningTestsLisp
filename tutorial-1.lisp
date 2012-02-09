@@ -10,6 +10,12 @@
       1
     (* N (factorial (- N 1)))))
 
+(defun fibonacci (N)
+  "Compute the N'th Fibonacci number."
+  (if (or (zerop N) (= N 1))
+      1
+    (+ (fibonacci (- N 1)) (fibonacci (- N 2)))))
+
 ;; Exercise solutions
 
 (defun triangular (N)
@@ -19,10 +25,16 @@
     (+ N (triangular (- N 1)))))
 
 (defun power (B E)
-  "Compute B to the power of E"
+  "Compute B to the power of E."
   (if (= E 0)
       1
     (* B (power B (- E 1)))))
+
+(defun binomial (N R)
+  "Compute the binominal."
+  (if (or (= R 0) (= R N))
+      1
+    (+ (binomial (- N 1) (- R 1)) (binomial (- N 1) R))))
 
 ;; Tests
 
@@ -54,4 +66,18 @@
   (assert-equal 2 (power 2 1))
   (assert-equal 4 (power 2 2))
   (assert-equal 8 (power 2 3))
+  )
+
+(define-test fibonacci
+  (assert-equal 1 (fibonacci 0))
+  (assert-equal 1 (fibonacci 1))
+  (assert-equal 2 (fibonacci 2))
+  (assert-equal 3 (fibonacci 3))
+  (assert-equal 5 (fibonacci 4))
+  )
+
+(define-test binomial
+  (assert-equal 1 (binomial 2 0))
+  (assert-equal 1 (binomial 2 2))
+  (assert-equal 6 (binomial 4 2))
   )
