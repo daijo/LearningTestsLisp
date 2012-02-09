@@ -1,6 +1,6 @@
 ;;; Solutions to LISP Tutorial 1: Basic LISP Programming
 
-;; Examples
+;; Copied examples
 
 (defun my-double (x) (* x 2))
 
@@ -15,6 +15,12 @@
   (if (or (zerop N) (= N 1))
       1
     (+ (fibonacci (- N 1)) (fibonacci (- N 2)))))
+
+(defun recursive-list-length (L)
+  "A recursive implementation of list-length."
+  (if (null L)
+      0
+    (1+ (recursive-list-length (rest L)))))
 
 ;; Exercise solutions
 
@@ -80,4 +86,10 @@
   (assert-equal 1 (binomial 2 0))
   (assert-equal 1 (binomial 2 2))
   (assert-equal 6 (binomial 4 2))
+  )
+
+(define-test recursive-list-length
+  (assert-equal 0 (recursive-list-length nil))
+  (assert-equal 1 (recursive-list-length '(1)))
+  (assert-equal 5 (recursive-list-length '(1 2 3 4 5)))
   )
