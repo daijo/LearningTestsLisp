@@ -22,6 +22,14 @@
       0
     (1+ (recursive-list-length (rest L)))))
 
+(defun list-nth (N L)
+  "Return the N'th member of a list L."
+  (if (null L)
+      nil
+    (if (zerop N)
+        (first L)
+      (list-nth (1- N) (rest L)))))
+
 ;; Exercise solutions
 
 (defun triangular (N)
@@ -104,4 +112,10 @@
   (assert-equal 0 (sum nil))
   (assert-equal 1 (sum '(1)))
   (assert-equal 15 (sum '(1 2 3 4 5)))
+  )
+
+(define-test list-nth
+  (assert-equal nil (list-nth 2 nil))
+  (assert-equal 'a (list-nth 0 '(a b c)))
+  (assert-equal 'c (list-nth 2 '(a b c)))
   )
