@@ -30,6 +30,19 @@
         (first L)
       (list-nth (1- N) (rest L)))))
 
+(defun list-member (E L)
+  "Test if E is a member of L."
+  (cond
+   ((null L)          nil)   
+   ((equal E (first L))  t)     
+   (t                 (list-member E (rest L))))) 
+
+(defun list-append (L1 L2)
+  "Append L1 by L2."
+  (if (null L1)
+      L2
+    (cons (first L1) (list-append (rest L1) L2))))
+
 ;; Exercise solutions
 
 (defun triangular (N)
@@ -131,4 +144,15 @@
   (assert-equal nil (my-last nil))
   (assert-equal '(c) (my-last '(a b c)))
   (assert-equal '(3) (my-last '(1 2 3)))
+  )
+
+(define-test list-member
+  (assert-equal nil (list-member 'a nil))
+  (assert-equal nil (list-member 'i '(APRIL is the cruellest month breeding)))
+  (assert-equal t (list-member 'is '(APRIL is the cruellest month breeding)))
+  )
+
+(define-test list-append
+  (assert-equal '(a b c)   (list-append nil '(a b c)))
+  (assert-equal '(a b c d) (list-append '(a b) '(c d)))
   )
