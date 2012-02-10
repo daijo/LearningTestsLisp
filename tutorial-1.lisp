@@ -76,6 +76,12 @@
     ((null (rest L))  (cons (first L) nil))
     (t                (my-last (rest L)))))
 
+(defun my-butlast (L)
+  "Return the list L without its last element."
+  (cond
+    ((null L)  nil)
+    ((consp (rest L)) (cons (first L) (my-butlast (rest L))))))
+
 ;; Tests
 
 (define-test my-double
@@ -155,4 +161,9 @@
 (define-test list-append
   (assert-equal '(a b c)   (list-append nil '(a b c)))
   (assert-equal '(a b c d) (list-append '(a b) '(c d)))
+  )
+
+(define-test my-butlast
+  (assert-equal nil (my-butlast nil))
+  (assert-equal '(a b c) (my-butlast '(a b c d)))
   )
