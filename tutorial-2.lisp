@@ -19,6 +19,16 @@
   "Create a new list containing the elements of L in reversed order."
   (list-reverse-aux L nil))
 
+(defun fast-factorial-aux (N A)
+  "Multiply A by the factorial of N."
+  (if (= N 1)
+      A
+    (fast-factorial-aux (- N 1) (* N A))))
+
+(defun fast-factorial (N)
+  "A tail-recursive version of factorial."
+  (fast-factorial-aux N 1))
+
 ;; Exercise solutions
 
 ;; Tests
@@ -31,4 +41,11 @@
 (define-test list-reverse
   (assert-equal nil (list-reverse nil))
   (assert-equal '(C B A) (list-reverse '(A B C)))
+  )
+
+(define-test fast-factorial
+  (assert-equal 1 (fast-factorial 1))
+  (assert-equal 2 (fast-factorial 2))
+  (assert-equal 6 (fast-factorial 3))
+  (assert-equal 24 (fast-factorial 4))
   )
