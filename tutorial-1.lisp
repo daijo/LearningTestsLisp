@@ -43,6 +43,14 @@
       L2
     (cons (first L1) (list-append (rest L1) L2))))
 
+(defun list-intersection (L1 L2)
+  "Return a list containing elements belonging to both L1 and L2."
+  (cond
+   ((null L1) nil)
+   ((member (first L1) L2) 
+    (cons (first L1) (list-intersection (rest L1) L2)))
+   (t (list-intersection (rest L1) L2))))
+
 ;; Exercise solutions
 
 (defun triangular (N)
@@ -81,6 +89,18 @@
   (cond
     ((null L)  nil)
     ((consp (rest L)) (cons (first L) (my-butlast (rest L))))))
+
+(defun list-union (L1 L2)
+  (cond
+    ((null L1) L2)
+    ((member (first L1) L2) (list-union (rest L1) L2))
+    (t (cons (first L1) (list-union (rest L1) L2)))))
+
+(defun list-difference (L1 L2)
+  (cond
+    ((null L1) L1)
+    ((member (first L1) L2) (list-difference (rest L1) L2))
+    (t (cons (first L1) (list-difference (rest L1) L2)))))
 
 ;; Tests
 
@@ -166,4 +186,25 @@
 (define-test my-butlast
   (assert-equal nil (my-butlast nil))
   (assert-equal '(a b c) (my-butlast '(a b c d)))
+  )
+
+(define-test list-intersection
+  (assert-equal nil (list-intersection nil '(a b c)))
+  (assert-equal '(c) (list-intersection '(a b c) '(c d e)))
+  (assert-equal '(b c) (list-intersection '(a b c) '(b c d)))
+  )
+
+(define-test list-union
+  (assert-equal '(a b c) (list-union nil '(a b c)))
+  (assert-equal '(a b c) (list-union '(a b c) '(a b c)))
+  (assert-equal '(a b c d) (list-union '(a b c) '(b c d)))
+  )
+
+;; set-difference list1 list2 &key (test #'eql) test-not (key #'identity)
+;;   Function
+;;   Returns a list of elements of list1 that do not appear in list2.
+(define-test list-difference
+  (assert-equal nil (list-difference nil '(a b c)))
+  (assert-equal nil (list-difference '(a b c) '(a b c)))
+  (assert-equal '(a) (list-difference '(a b c) '(b c d)))
   )
