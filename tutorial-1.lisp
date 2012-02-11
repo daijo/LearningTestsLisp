@@ -91,12 +91,14 @@
     ((consp (rest L)) (cons (first L) (my-butlast (rest L))))))
 
 (defun list-union (L1 L2)
+  "Return the union of L1 and L2."
   (cond
     ((null L1) L2)
     ((member (first L1) L2) (list-union (rest L1) L2))
     (t (cons (first L1) (list-union (rest L1) L2)))))
 
 (defun list-difference (L1 L2)
+  "Return the (non-symmetric) difference of L1 and L2."
   (cond
     ((null L1) L1)
     ((member (first L1) L2) (list-difference (rest L1) L2))
