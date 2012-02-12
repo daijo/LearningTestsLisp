@@ -29,6 +29,12 @@
   "A tail-recursive version of factorial."
   (fast-factorial-aux N 1))
 
+(defun repeat-transformation (F N X)
+  "Repeat applying function F on object X for N times."
+  (if (zerop N)
+      X
+    (repeat-transformation F (1- N) (funcall F X))))
+
 ;; Exercise solutions
 
 (defun fast-triangular-aux (N A)
@@ -101,4 +107,10 @@
   (assert-equal 0 (fast-list-length nil))
   (assert-equal 1 (fast-list-length '(1)))
   (assert-equal 5 (fast-list-length '(1 2 3 4 5)))
+  )
+
+(define-test repeat-transformation
+  (assert-equal 16 (repeat-transformation (function my-double) 4 1))
+  (assert-equal 'g (first (repeat-transformation #'rest 6 '(a b c d e f g h i j))))
+  (assert-equal 16 (repeat-transformation #'(lambda (X) (* 2 X)) 4 1))
   )
