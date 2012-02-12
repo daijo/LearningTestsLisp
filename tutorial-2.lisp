@@ -63,10 +63,16 @@
     (fast-list-length-aux (rest L) (1+ A))))
 
 (defun fast-list-length (L)
-  "A tail-recursive veriosn of list length."
+  "A tail-recursive version of list length."
   (if (null L)
       0
     (fast-list-length-aux (rest L) 1)))
+
+(defun apply-func-list (L X)
+  "Applies a list of functions to an object."
+  (if (null L)
+      X
+    (apply-func-list (my-butlast L) (funcall (first (my-last L)) X))))
 
 ;; Tests
 
@@ -114,4 +120,13 @@
   (assert-equal 16 (repeat-transformation (function my-double) 4 1))
   (assert-equal 'g (first (repeat-transformation #'rest 6 '(a b c d e f g h i j))))
   (assert-equal 16 (repeat-transformation #'(lambda (X) (* 2 X)) 4 1))
+  )
+
+(define-test apply-func-list
+  (assert-equal 4 (apply-func-list (list #'my-double) 2))
+  (assert-equal 4 (apply-func-list (list #'my-double #'list-length #'rest) '(1 2 3)))
+  (assert-equal 400 (apply-func-list (list #'(lambda (X) (* 10 X)) #'fourth) '(10 20 30 40 50)))
+  (assert-equal 5 (apply-func-list (list #'third #'second) '((1 2) (3 4 5) (6))))
+  (assert-equal 4 (apply-func-list (list #'(lambda (X) (- 10 X)) #'fast-list-length) '(a b c d e f)))
+  (assert-equal '((blah)) (apply-func-list (list #'list #'list) 'blah))
   )
