@@ -51,6 +51,16 @@
       1
     (fast-power-aux B E B)))
 
+(defun fast-list-length-aux (L A)
+  (if (null L)
+      A
+    (fast-list-length-aux (rest L) (1+ A))))
+
+(defun fast-list-length (L)
+  (if (null L)
+      0
+    (fast-list-length-aux (rest L) 1)))
+
 ;; Tests
 
 (define-test slow-list-reverse
@@ -85,4 +95,10 @@
   (assert-equal 2 (fast-power 2 1))
   (assert-equal 4 (fast-power 2 2))
   (assert-equal 8 (fast-power 2 3))
+  )
+
+(define-test fast-list-length
+  (assert-equal 0 (fast-list-length nil))
+  (assert-equal 1 (fast-list-length '(1)))
+  (assert-equal 5 (fast-list-length '(1 2 3 4 5)))
   )
