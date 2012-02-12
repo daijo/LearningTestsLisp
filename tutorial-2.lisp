@@ -63,6 +63,7 @@
     (fast-list-length-aux (rest L) (1+ A))))
 
 (defun fast-list-length (L)
+  "A tail-recursive veriosn of list length."
   (if (null L)
       0
     (fast-list-length-aux (rest L) 1)))
