@@ -40,6 +40,17 @@
   "A tail-recursive version of triangular."
   (fast-triangular-aux N 1))
 
+(defun fast-power-aux (B N A)
+  (if (= N 1)
+      A
+    (fast-power-aux B (- N 1) (* B A))))
+
+(defun fast-power (B E)
+  "A tail-recursive version of power."
+  (if (= E 0)
+      1
+    (fast-power-aux B E B)))
+
 ;; Tests
 
 (define-test slow-list-reverse
@@ -64,4 +75,14 @@
   (assert-equal 3 (fast-triangular 2))
   (assert-equal 6 (fast-triangular 3))
   (assert-equal 10 (fast-triangular 4))
+  )
+
+(define-test fast-power
+  (assert-equal 0 (fast-power 0 1))
+  (assert-equal 1 (fast-power 1 0))
+  (assert-equal 0 (fast-power 0 2))
+  (assert-equal 1 (fast-power 2 0))
+  (assert-equal 2 (fast-power 2 1))
+  (assert-equal 4 (fast-power 2 2))
+  (assert-equal 8 (fast-power 2 3))
   )
