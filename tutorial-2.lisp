@@ -35,6 +35,12 @@
       X
     (repeat-transformation F (1- N) (funcall F X))))
 
+(defun mapfirst (F L)
+  "Apply function F to every element of list L, and return a list containing the results."
+  (if (null L)
+      nil
+    (cons (funcall F (first L)) (mapfirst F (rest L)))))
+
 ;; Exercise solutions
 
 (defun fast-triangular-aux (N A)
@@ -129,4 +135,11 @@
   (assert-equal 5 (apply-func-list (list #'third #'second) '((1 2) (3 4 5) (6))))
   (assert-equal 4 (apply-func-list (list #'(lambda (X) (- 10 X)) #'fast-list-length) '(a b c d e f)))
   (assert-equal '((blah)) (apply-func-list (list #'list #'list) 'blah))
+  )
+
+(define-test mapfirst
+  (assert-equal '(2 4 6 8) (mapfirst #'my-double '(1 2 3 4)))
+  (assert-equal '((3 2 1) (C B A) (6 5 4) (F E D)) (mapfirst #'reverse '((1 2 3) (a b c) (4 5 6) (d e f))))
+  (assert-equal '(1 4 9 16) (mapfirst #'(lambda (X) (* X X)) '(1 2 3 4)))
+  (assert-equal '((1 2) (A B) (4 5) (D E)) (mapcar #'my-butlast '((1 2 3) (a b c) (4 5 6) (d e f))))
   )
