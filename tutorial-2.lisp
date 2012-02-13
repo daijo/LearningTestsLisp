@@ -41,6 +41,14 @@
       nil
     (cons (funcall F (first L)) (mapfirst F (rest L)))))
 
+(defun find-even (L)
+  "Given a list L of numbers, return the leftmost even member."
+  (if (null L)
+      nil
+    (if (evenp (first L))
+        (first L)
+      (find-even (rest L)))))
+
 ;; Exercise solutions
 
 (defun fast-triangular-aux (N A)
@@ -79,6 +87,13 @@
   (if (null L)
       X
     (apply-func-list (my-butlast L) (funcall (first (my-last L)) X))))
+
+(defun find-non-empty (L)
+  "Given a list L of lists, return the leftmost non-empty member."
+  (cond
+    ((null L) nil)
+    ((consp (first L)) (first L))
+    (t (find-non-empty (rest L)))))
 
 ;; Tests
 
@@ -142,4 +157,16 @@
   (assert-equal '((3 2 1) (C B A) (6 5 4) (F E D)) (mapfirst #'reverse '((1 2 3) (a b c) (4 5 6) (d e f))))
   (assert-equal '(1 4 9 16) (mapfirst #'(lambda (X) (* X X)) '(1 2 3 4)))
   (assert-equal '((1 2) (A B) (4 5) (D E)) (mapcar #'my-butlast '((1 2 3) (a b c) (4 5 6) (d e f))))
+  )
+
+(define-test find-even
+  (assert-equal nil (find-even nil))
+  (assert-equal 2 (find-even '(1 2 3 4 5 6)))
+  )
+
+(define-test find-non-empty
+  (assert-equal nil (find-non-empty nil))
+  (assert-equal nil (find-non-empty '(nil nil nil)))
+  (assert-equal nil (find-non-empty '(() () ())))
+  (assert-equal '(1 2) (find-non-empty '(() (1 2) ())))
   )
