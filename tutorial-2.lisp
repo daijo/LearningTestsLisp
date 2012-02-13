@@ -49,6 +49,14 @@
         (first L)
       (find-even (rest L)))))
 
+(defun list-find-if (P L)
+  "Find the leftmost element of list L that satisfies predicate P."
+  (if (null L)
+      nil
+    (if (funcall P (first L))
+        (first L)
+      (list-find-if P (rest L)))))
+
 ;; Exercise solutions
 
 (defun fast-triangular-aux (N A)
@@ -169,4 +177,15 @@
   (assert-equal nil (find-non-empty '(nil nil nil)))
   (assert-equal nil (find-non-empty '(() () ())))
   (assert-equal '(1 2) (find-non-empty '(() (1 2) ())))
+  )
+
+(define-test list-find-if
+  (assert-equal 8 (list-find-if #'evenp '(1 3 5 8 11 12)))
+  (assert-equal '(1 2 3) (list-find-if #'(lambda (X) (consp X)) '(nil nil (1 2 3) (4 5))))
+)
+
+(define-test find-if
+  (assert-equal '(1 2 3) (find-if #'(lambda (X) (>= (length X) 3)) '(nil (1) (1 2) (1 2 3))))
+  (assert-equal '(1 2) (find-if #'(lambda (X) (evenp (length X))) '((1) (1 2) (1 2 3))))
+  (assert-equal 6 (find-if #'(lambda (X) (zerop (rem X 3))) '(1 2 1 6 3)))
   )
