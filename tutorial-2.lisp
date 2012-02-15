@@ -122,6 +122,10 @@
   "Returns a list of elements of L1 that do not appear in L2."
   (remove-if #'(lambda (X) (member X L2)) L1))  
 
+(defun remove-if-not-list-intersection (L1 L2)
+  "Return a list containing elements belonging to both L1 and L2."
+    (remove-if-not #'(lambda (X) (member X L2)) L1))
+
 ;; Tests
 
 (define-test slow-list-reverse
@@ -228,4 +232,10 @@
   (assert-equal nil (remove-if-list-difference nil '(a b c)))
   (assert-equal nil (remove-if-list-difference '(a b c) '(a b c)))
   (assert-equal '(a) (remove-if-list-difference '(a b c) '(b c d)))
+  )
+
+(define-test remove-if-not-list-intersection
+  (assert-equal nil (remove-if-not-list-intersection nil '(a b c)))
+  (assert-equal '(c) (remove-if-not-list-intersection '(a b c) '(c d e)))
+  (assert-equal '(b c) (remove-if-not-list-intersection '(a b c) '(b c d)))
   )
