@@ -65,6 +65,12 @@
         (remove-short-lists (rest L))
       (cons (first L) (remove-short-lists (rest L))))))
 
+(defun order (a b)
+  "Return two values: (min a b) and (max a b)."
+  (if (>= a b)
+      (values b a)
+    (values a b)))
+
 ;; Exercise solutions
 
 (defun fast-triangular-aux (N A)
@@ -238,4 +244,11 @@
   (assert-equal nil (remove-if-not-list-intersection nil '(a b c)))
   (assert-equal '(c) (remove-if-not-list-intersection '(a b c) '(c d e)))
   (assert-equal '(b c) (remove-if-not-list-intersection '(a b c) '(b c d)))
+  )
+
+(define-test order
+  (assert-true (multiple-value-bind (a b) (order 17 5) 
+                  (and (= a 5 ) (= b 17))))
+  (assert-false (multiple-value-bind (a b) (order 17 5) 
+                  (and (= a 17) (= b 5))))
   )
