@@ -118,6 +118,10 @@
     ((funcall P (first L)) (my-remove-if P (rest L)))
     (t (cons (first L) (my-remove-if P (rest L))))))
 
+(defun remove-if-list-difference (L1 L2)
+  "Returns a list of elements of L1 that do not appear in L2."
+  (remove-if #'(lambda (X) (member X L2)) L1))  
+
 ;; Tests
 
 (define-test slow-list-reverse
@@ -218,4 +222,10 @@
 (define-test my-remove-if
   (assert-equal '((1 2 3) (1 2 3 4)) (my-remove-if #'(lambda (X) (< (list-length X) 3)) '((1 2 3) (1 2) nil (1 2 3 4))))
   (assert-equal '(3 9 13 15) (my-remove-if #'(lambda (X) (zerop (rem x 2))) '(3 6 8 9 10 13 15 18)))
+  )
+
+(define-test remove-if-list-difference
+  (assert-equal nil (remove-if-list-difference nil '(a b c)))
+  (assert-equal nil (remove-if-list-difference '(a b c) '(a b c)))
+  (assert-equal '(a) (remove-if-list-difference '(a b c) '(b c d)))
   )
