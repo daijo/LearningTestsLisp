@@ -57,6 +57,14 @@
         (first L)
       (list-find-if P (rest L)))))
 
+(defun remove-short-lists (L)
+  "Remove all members of L that has length less than three."
+  (if (null L)
+      nil
+    (if (< (list-length (first L)) 3)
+        (remove-short-lists (rest L))
+      (cons (first L) (remove-short-lists (rest L))))))
+
 ;; Exercise solutions
 
 (defun fast-triangular-aux (N A)
@@ -102,6 +110,13 @@
     ((null L) nil)
     ((consp (first L)) (first L))
     (t (find-non-empty (rest L)))))
+
+(defun my-remove-if (P L)
+  "Given a list L, return L2 that contains only members not satisfying predicate P"
+  (cond
+    ((null L) nil)
+    ((funcall P (first L)) (my-remove-if P (rest L)))
+    (t (cons (first L) (my-remove-if P (rest L))))))
 
 ;; Tests
 
@@ -188,4 +203,19 @@
   (assert-equal '(1 2 3) (find-if #'(lambda (X) (>= (length X) 3)) '(nil (1) (1 2) (1 2 3))))
   (assert-equal '(1 2) (find-if #'(lambda (X) (evenp (length X))) '((1) (1 2) (1 2 3))))
   (assert-equal 6 (find-if #'(lambda (X) (zerop (rem X 3))) '(1 2 1 6 3)))
+  )
+
+(define-test remove-short-lists
+  (assert-equal nil (remove-short-lists nil))
+  (assert-equal '((1 2 3) (1 2 3 4)) (remove-short-lists '(nil (1 2) (1 2 3) (1 2 3 4))))
+  )
+
+(define-test remove-if
+  (assert-equal '((1 2 3) (1 2 3 4)) (remove-if #'(lambda (X) (< (list-length X) 3)) '((1 2 3) (1 2) nil (1 2 3 4))))
+  (assert-equal '(3 9 13 15) (remove-if #'(lambda (X) (zerop (rem x 2))) '(3 6 8 9 10 13 15 18)))
+  )
+
+(define-test my-remove-if
+  (assert-equal '((1 2 3) (1 2 3 4)) (my-remove-if #'(lambda (X) (< (list-length X) 3)) '((1 2 3) (1 2) nil (1 2 3 4))))
+  (assert-equal '(3 9 13 15) (my-remove-if #'(lambda (X) (zerop (rem x 2))) '(3 6 8 9 10 13 15 18)))
   )
