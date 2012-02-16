@@ -130,7 +130,17 @@
 
 (defun remove-if-not-list-intersection (L1 L2)
   "Return a list containing elements belonging to both L1 and L2."
-    (remove-if-not #'(lambda (X) (member X L2)) L1))
+  (remove-if-not #'(lambda (X) (member X L2)) L1))
+
+(defun list-max-min-aux (L MAX MIN)
+  (if (null L)
+      (values MAX MIN)
+    (list-max-min-aux (rest L) (max (first L) MAX) (min (first L) MIN))))
+
+(defun list-max-min (L)
+  (if (null L)
+      (values nil nil)
+    (list-max-min-aux (rest L) (first L) (first L))))
 
 ;; Tests
 
@@ -251,4 +261,11 @@
                   (and (= a 5 ) (= b 17))))
   (assert-false (multiple-value-bind (a b) (order 17 5) 
                   (and (= a 17) (= b 5))))
+  )
+
+(define-test list-max-min
+  (assert-true (multiple-value-bind (max min) (list-max-min nil) 
+                  (and (null nil) (null nil))))
+  (assert-true (multiple-value-bind (max min) (list-max-min '(2 5 3 9 45 8)) 
+                  (and (= max 45) (= min 2))))
   )
