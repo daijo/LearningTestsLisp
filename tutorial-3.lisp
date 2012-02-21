@@ -1,7 +1,5 @@
 ;;; LISP Tutorial Lecture 3: Data Abstraction
 
-;; Copied examples
-
 ;;
 ;; Binary Trees
 ;;
@@ -50,6 +48,20 @@
   "Test if binary tree B is a node."
   (and (listp B) (= (list-length B) 3)))
 
+;; Copied examples
+
+(defun bin-tree-member-p (B E)
+  "Test if E is an element in binary tree B."
+  (if (bin-tree-leaf-p B)
+      (equal E (bin-tree-leaf-element B))
+    (let
+	((elmt  (bin-tree-node-element B))
+	 (left  (bin-tree-node-left    B))
+	 (right (bin-tree-node-right   B)))
+      (or (equal E elmt)
+	  (bin-tree-member-p left E)
+	  (bin-tree-member-p right E)))))
+
 ;; Exercise solutions
 
 ;; Tests
@@ -63,3 +75,8 @@
                                                  (make-bin-tree-leaf 7)
                                                  (make-bin-tree-leaf 8))))
   )
+
+(define-test bin-tree-member-p
+  (assert-false (bin-tree-member-p '(+ (* (2) (3)) (- (7) (8))) 1))
+  (assert-true (bin-tree-member-p '(+ (* (2) (3)) (- (7) (8))) 7))
+)
